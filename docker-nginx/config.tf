@@ -11,10 +11,15 @@ resource "docker_container" "nginx-server" {
   image = "${docker_image.nginx.latest}"
   ports {
     internal = 80
+    external = 81
   }
   volumes {
     container_path  = "/usr/share/nginx/html"
-    host_path = "/home/scrapbook/tutorial/www"
+    host_path = "${path.module}/templates/nginx"
     read_only = true
   }
+}
+
+data "local_file" "foo" {
+    filename = "${path.module}/templates/nginx/index.html"
 }
