@@ -28,9 +28,9 @@ resource "google_compute_instance" "vm_instance" {
     //network = "${google_compute_network.vpc_network.self_link}"
     network    = "default"
     subnetwork = "default"
-    //access_config {
-    // Ephemeral IP
-    //}
+    access_config {
+      // Ephemeral IP
+    }
   }
 
   metadata = {
