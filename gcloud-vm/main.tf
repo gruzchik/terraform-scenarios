@@ -5,7 +5,7 @@ provider "google" {
 }
 
 
-resource "google_compute_instance" "default" {
+resource "google_compute_instance" "vm_instance" {
   name         = "test-${count.index}"
   machine_type = "f1-micro"
   zone         = "us-central1-a"
@@ -25,6 +25,7 @@ resource "google_compute_instance" "default" {
   //}
 
   network_interface {
+    //network = "${google_compute_network.vpc_network.self_link}"
     network    = "default"
     subnetwork = "default"
     //access_config {
@@ -33,7 +34,8 @@ resource "google_compute_instance" "default" {
   }
 
   metadata = {
-    foo = "bar"
+    foo     = "bar"
+    sshKeys = "pogorelkogcp:${file(var.ssh_public_key_filepath)}"
   }
 
   metadata_startup_script = "cat .ssh/id_dsa.pub >> /root/.ssh/authorized_keys2"
@@ -41,4 +43,19 @@ resource "google_compute_instance" "default" {
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
+}
+
+#resource "google_compute_network" "vpc_network" {
+#  name                    = "terraform-network"
+#  auto_create_subnetworks = "true"
+#}
+
+output "ip" {
+  value = google_compute_instance.vm_instance[0].network_interface.0.access_config.0.nat_ip
+}
+
+variable "ssh_public_key_filepath" {
+  description = "Filepath for ssh public key"
+  type        = string
+  default     = "ubuntu.pub"
 }
