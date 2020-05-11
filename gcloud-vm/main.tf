@@ -11,7 +11,7 @@ resource "google_compute_instance" "vm_instance" {
   zone         = "us-central1-a"
   count        = 2
 
-  tags = ["foo", "bar"]
+  tags = ["http-server"]
 
   boot_disk {
     initialize_params {
@@ -50,7 +50,7 @@ resource "google_compute_instance" "centos_instance" {
   machine_type = "f1-micro"
   zone         = "us-central1-a"
 
-  tags = ["foo", "bar"]
+  tags = ["http-server"]
 
   boot_disk {
     initialize_params {
