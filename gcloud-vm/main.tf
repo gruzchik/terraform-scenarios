@@ -35,7 +35,7 @@ resource "google_compute_instance" "vm_instance" {
 
   metadata = {
     foo     = "bar"
-    sshKeys = "username:${file(var.ssh_public_key_filepath)}"
+    sshKeys = "${var.ssh_connection_username}:${file(var.ssh_public_key_filepath)}"
   }
 
   metadata_startup_script = "cat .ssh/id_dsa.pub >> /root/.ssh/authorized_keys2"
@@ -73,7 +73,7 @@ resource "google_compute_instance" "centos_instance" {
 
   metadata = {
     foo     = "bar"
-    sshKeys = "username:${file(var.ssh_public_key_filepath)}"
+    sshKeys = "${var.ssh_connection_username}:${file(var.ssh_public_key_filepath)}"
   }
 
 }
@@ -100,4 +100,10 @@ variable "ssh_public_key_filepath" {
   description = "Filepath for ssh public key"
   type        = string
   default     = "ubuntu.pub"
+}
+
+variable "ssh_connection_username" {
+  description = "Username for connection"
+  type        = string
+  default     = "usernamegc"
 }
