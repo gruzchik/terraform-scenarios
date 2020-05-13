@@ -6,10 +6,11 @@ provider "google" {
 
 
 resource "google_compute_instance" "vm_instance" {
-  name         = "test-${count.index}"
-  machine_type = "f1-micro"
-  zone         = "us-central1-a"
-  count        = var.debian_instance_quantity
+  name                      = "test-${count.index}"
+  machine_type              = "f1-micro"
+  zone                      = "us-central1-a"
+  count                     = var.debian_instance_quantity
+  allow_stopping_for_update = true
 
   tags = ["http-server"]
 
@@ -46,9 +47,10 @@ resource "google_compute_instance" "vm_instance" {
 }
 
 resource "google_compute_instance" "centos_instance" {
-  name         = "centos"
-  machine_type = "f1-micro"
-  zone         = "us-central1-a"
+  name                      = "centos"
+  machine_type              = "f1-micro"
+  zone                      = "us-central1-a"
+  allow_stopping_for_update = true
 
   tags = ["http-server"]
 
