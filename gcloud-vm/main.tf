@@ -1,6 +1,6 @@
 provider "google" {
   credentials = file("../../account.json")
-  project     = "my-project-id"
+  project     = var.tf_project_name
   region      = "us-central1"
 }
 
@@ -9,7 +9,7 @@ resource "google_compute_instance" "vm_instance" {
   name         = "test-${count.index}"
   machine_type = "f1-micro"
   zone         = "us-central1-a"
-  count        = 2
+  count        = var.debian_instance_quantity
 
   tags = ["http-server"]
 
@@ -106,4 +106,16 @@ variable "ssh_connection_username" {
   description = "Username for connection"
   type        = string
   default     = "usernamegc"
+}
+
+variable "tf_project_name" {
+  description = "GCP Project Name"
+  type        = string
+  default     = "my-project-id"
+}
+
+variable "debian_instance_quantity" {
+  description = "Debian Instance Quantity"
+  type        = number
+  default     = "2"
 }
