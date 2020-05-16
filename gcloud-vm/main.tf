@@ -35,7 +35,7 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   metadata = {
-    foo     = "bar"
+    type    = "http-server"
     sshKeys = "${var.ssh_connection_username}:${file(var.ssh_public_key_filepath)}"
   }
 
@@ -74,7 +74,7 @@ resource "google_compute_instance" "centos_instance" {
   }
 
   metadata = {
-    foo     = "bar"
+    type    = "http-server"
     sshKeys = "${var.ssh_connection_username}:${file(var.ssh_public_key_filepath)}"
   }
 
