@@ -24,7 +24,7 @@ resources:
 - name: mynet-us-vm
   type: instance-template.jinja
   properties:
-    zone: us-central1-a
+    zone: f1-micro
     machineType: n1-standard-1
     network: $(ref.mynetwork.selfLink)
     subnetwork: regions/us-central1/subnetworks/mynetwork
@@ -34,6 +34,6 @@ resources:
   type: instance-template.jinja
   properties:
     zone: europe-west1-d
-    machineType: n1-standard-1
+    machineType: f1-micro
     network: $(ref.mynetwork.selfLink)  
     subnetwork: regions/europe-west1/subnetworks/mynetwork
