@@ -22,3 +22,5 @@ use some command with only specified target:
 
 run terraform with specified vars:
  - terraform (plan/apply/destroy) -var="tf_project_name=project_name_id"
+ 
+ test
