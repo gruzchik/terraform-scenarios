@@ -29,11 +29,11 @@ resource "aws_security_group" "efs_sg" {
   //vpc_id      = aws_vpc.default.id
 
   ingress {
-    description = "efs connection"
-    from_port   = 2409
-    to_port     = 2409
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    description     = "efs connection"
+    from_port       = 2409
+    to_port         = 2409
+    protocol        = "tcp"
+    security_groups = ["${aws_security_group.ec2_sg.id}"]
   }
   egress {
     from_port        = 0
@@ -45,4 +45,9 @@ resource "aws_security_group" "efs_sg" {
   tags = {
     Name = "EFS-sg"
   }
+}
+
+output "instance_ip_addr" {
+  value       = aws_security_group.ec2_sg.id
+  description = "ssh SG"
 }
