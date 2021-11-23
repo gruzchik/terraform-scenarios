@@ -1,53 +1,28 @@
-resource "aws_security_group" "ec2_sg" {
-  name        = "ec2_sg"
-  description = "Allow SSH inbound traffic"
+resource "aws_efs_file_system" "efs-engx" {
+  creation_token   = "efs-example"
+  performance_mode = "generalPurpose"
+  throughput_mode  = "bursting"
+  encrypted        = "true"
 
-  //vpc_id      = aws_vpc.default.id
-
-  ingress {
-    description = "ssh connection"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
   tags = {
-    Name = "EC2-sg"
+    Name = "EfsExample"
   }
 }
 
-resource "aws_security_group" "efs_sg" {
-  name        = "efs_sg"
-  description = "Allow EFS inbound traffic"
-
-  //vpc_id      = aws_vpc.default.id
-
-  ingress {
-    description     = "efs connection"
-    from_port       = 2409
-    to_port         = 2409
-    protocol        = "tcp"
-    security_groups = ["${aws_security_group.ec2_sg.id}"]
-  }
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-  tags = {
-    Name = "EFS-sg"
-  }
+resource "aws_efs_mount_target" "efs-mt-engx-us-east1a" {
+  file_system_id  = "${aws_efs_file_system.efs-engx.id}"
+  subnet_id       = "${aws_subnet.subnet-efs-us-east-1a.id}"
+  security_groups = ["${aws_security_group.efs_sg.id}"]
 }
 
-output "instance_ip_addr" {
-  value       = aws_security_group.ec2_sg.id
-  description = "ssh SG"
+resource "aws_efs_mount_target" "efs-mt-engx-us-east1b" {
+  file_system_id  = "${aws_efs_file_system.efs-engx.id}"
+  subnet_id       = "${aws_subnet.subnet-efs-us-east-1b.id}"
+  security_groups = ["${aws_security_group.efs_sg.id}"]
+}
+
+resource "aws_efs_mount_target" "efs-mt-engx-us-east1c" {
+  file_system_id  = "${aws_efs_file_system.efs-engx.id}"
+  subnet_id       = "${aws_subnet.subnet-efs-us-east-1c.id}"
+  security_groups = ["${aws_security_group.efs_sg.id}"]
 }
