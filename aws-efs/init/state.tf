@@ -14,7 +14,8 @@ resource "aws_dynamodb_table" "remote_state_lock_table" {
 }
 
 resource "aws_s3_bucket" "remote_state_s3_bucket" {
-  bucket = "${local.terraform_state_bucket_and_table_name}"
+  bucket        = "${local.terraform_state_bucket_and_table_name}"
+  force_destroy = true
 
   versioning {
     enabled = true
