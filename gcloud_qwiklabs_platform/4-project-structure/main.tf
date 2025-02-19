@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    google = {
+      source = "hashicorp/google"
+      version = "4.53.0"
+    }
+  }
+}
+
 provider "google" {
 #   project     = "# REPLACE WITH YOUR PROJECT ID"
   project     = "qwiklabs-gcp-00-8cdb1de17046"
@@ -10,6 +19,13 @@ provider "google" {
 #     prefix  = "terraform/state"
 #   }
 # }
+
+
+#resource "google_compute_instance" "default1" {
+#}
+
+#resource "google_compute_instance" "default2" {
+#}
 
 module "compute-instance1" {
   source = "./modules/instances"
